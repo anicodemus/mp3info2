@@ -1,5 +1,5 @@
+Flags=-XExistentialQuantification -XTypeSynonymInstances
 build:
-	ghc mp3.hs header.hs id3v1.hs
-
+	ghc $(Flags) mp3.hs
 clean:
 	rm -rf *hi *o
