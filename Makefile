@@ -1,5 +1,9 @@
-Flags=-XExistentialQuantification -XTypeSynonymInstances
+PFlags= -rtsopts -prof -auto-all -caf-all -fforce-recomp
+Flags= -XExistentialQuantification -XTypeSynonymInstances -O -odir bin -hidir bin -isrc -o mp32
 build:
-	ghc $(Flags) mp3.hs
+	ghc $(Flags) src/mp3.hs
+pro:
+	ghc $(PFlags) $(Flags) src/mp3.hs
+
 clean:
-	rm -rf *hi *o mp3
+	rm -rf bin/* mp32
