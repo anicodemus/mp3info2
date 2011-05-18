@@ -11,14 +11,12 @@ import GHC.Int
 import BStrUtils
 
 data Field =  Tag | Title | Artist | Album | Year | Comment | Track | Genre
-           deriving (Enum,Eq,Show)
+           deriving (Enum,Eq)
                     
 type ID3Tag = [(Field,B.ByteString)]
 
-get = lookup
-
 getM f [] = B.empty
-getM f (t:ts) = case (get f t) of
+getM f (t:ts) = case (lookup f t) of
   Just a -> clean a
   Nothing -> getM f ts
 
@@ -33,4 +31,4 @@ getGenre = genreByNum . fromIntegral . getGenreNum
 
 toNum:: B.ByteString -> Integer
 toNum b | B.null b = 0
-        | otherwise = fromIntegral ( B.head b)
+        | otherwise = fromIntegral (B.head b)

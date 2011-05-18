@@ -15,17 +15,16 @@ start Tag = 0
 start Track = (start Comment) + (size Comment) - 1
 start f = let p = pred f in (start p) + (size p)
 
-getTag b Track = let i = getT b
-                  in strToBstr (show i)
+getT b = fromIntegral $ B.index b (start Track) 
 
+getTag b Track = (strToBstr . show . getT) b
 getTag b f = substring b (start f) (size f)
 
-getG b = fromIntegral $ B.index b (start Genre) 
-getT b = fromIntegral $ B.index b (start Track) 
+getTags b = map (\f -> (f, getTag b f)) (enumFrom Title)
 
 readv1Tag file = do
   h <- openFile file ReadMode
   tag <- hSeek h SeekFromEnd (-128) >> B.hGetContents h
-  case (B.isPrefixOf (strToBstr "TAG") tag) of
-    True  -> return (map (\f -> (f, getTag tag f)) (enumFrom Title))
+  case (strToBstr "TAG") == tag of
+    True  -> return (getTags tag)
     False -> return []
