@@ -1,8 +1,6 @@
 import qualified Data.ByteString.Lazy as B
-import Header
-import ID3vN
-import ID3v1
-import ID3v2
+import MP3
+import ID3
 import Genre
 import Format
 import IO
@@ -105,7 +103,7 @@ shortenFileName = last . f
 
 valid file heads tags size = f (lookUpTable file heads tags size)
   where f t c = lookup c t
--- valid _ _ _ _ = error "Invalid tag"
+-- valid _ _ _  _ = error "Invalid tag"
 
 printFile cstr file = do
   h        <- openFile file ReadMode
