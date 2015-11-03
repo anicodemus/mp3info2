@@ -1,1 +1,1 @@
-I'll get to this a little later
+Haskell program that reads ID3v2 tags and maintains command line compatibility with the original mp3info program.
