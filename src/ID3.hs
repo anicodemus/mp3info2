@@ -18,7 +18,7 @@ type ID3Tag = [(Field,B.ByteString)]
 
 getM f [] = B.empty
 getM f (t:ts) = case (lookup f t) of
-  Just a -> clean a
+  Just a -> trimr (clean a)
   Nothing -> getM f ts
 
 getArtist = getM Artist
@@ -35,6 +35,11 @@ toNum b | B.null b = 0
         | otherwise = fromIntegral (B.head b)
 
 trim f b = substring b 0 (size f)
+
+trimr b = let junk = B.takeWhile (32==) (B.reverse b)
+              leng = B.length b
+              lenj = B.length junk
+          in substring b 0 (leng-lenj)
 
 -- ID3v1 relevant code
 
@@ -93,7 +98,7 @@ readFrames tags = do
   case id == B.empty of
     True  -> return tags
     False -> case isOfInterest id of
-        Just a -> readFrames ((a,d):tags)
+        Just a -> readFrames ((a, d):tags)
         Nothing -> readFrames tags
 
 readFrameHeader = do
@@ -128,4 +133,3 @@ collectTags b = fst (runByteReader b readTag)
 readv2Tag file = do
   contents <- B.readFile file
   return (collectTags contents)
-

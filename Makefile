@@ -1,5 +1,5 @@
 PFlags= -rtsopts -prof -auto-all -caf-all -fforce-recomp
-Flags= -XExistentialQuantification -XTypeSynonymInstances -O -odir bin -hidir bin -isrc -o mp32
+Flags= -XFlexibleInstances -XExistentialQuantification -XTypeSynonymInstances -O -odir bin -hidir bin -isrc -o mp32
 build:
 	ghc $(Flags) src/Main.hs
 pro:

@@ -1,10 +1,9 @@
-import qualified Data.ByteString.Lazy as B
 import MP3
 import ID3
 import Genre
 import Format
-import IO
-import System
+import System.IO
+import System.Environment
 
 -- Command line options too support
 
@@ -133,10 +132,10 @@ dofiles s [] = putStrLn "No MP3 files specified!"
 
 run (Default, []) = putStrLn usage
 run (o,files) = case o of
-  Genres -> printGenres
+  Genres	-> printGenres
   UserDefined s -> doFiles s files
-  Technical -> doFiles (controlStr++mp3str++"\n") files
-  Default ->  doFiles (controlStr++"\n") files
+  Technical 	-> doFiles (controlStr++mp3str++"\n") files
+  Default 	-> doFiles (controlStr++"\n") files
 
 main = do
   args <- getArgs
